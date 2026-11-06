@@ -1,0 +1,640 @@
+﻿archivo;paquete;clase;numero_linea;codigo
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;1;"package conexiontester;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;2;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;3;"import conexiontester.modelo.ConfiguracionConexion;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;4;"import conexiontester.modelo.ResultadoPrueba;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;5;"import conexiontester.modelo.TipoBaseDatos;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;6;"import conexiontester.servicio.HistorialCsv;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;7;"import conexiontester.servicio.ValidadorConexion;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;8;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;9;"import javax.swing.BorderFactory;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;10;"import javax.swing.JButton;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;11;"import javax.swing.JComboBox;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;12;"import javax.swing.JFrame;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;13;"import javax.swing.JLabel;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;14;"import javax.swing.JPanel;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;15;"import javax.swing.JPasswordField;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;16;"import javax.swing.JScrollPane;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;17;"import javax.swing.JTextArea;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;18;"import javax.swing.JTextField;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;19;"import javax.swing.SwingUtilities;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;20;"import javax.swing.SwingWorker;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;21;"import javax.swing.UIManager;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;22;"import javax.swing.WindowConstants;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;23;"import java.awt.BorderLayout;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;24;"import java.awt.Color;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;25;"import java.awt.Cursor;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;26;"import java.awt.Dimension;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;27;"import java.awt.FlowLayout;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;28;"import java.awt.Font;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;29;"import java.awt.GridLayout;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;30;"import java.io.IOException;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;31;"import java.nio.file.Path;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;32;"import java.time.format.DateTimeFormatter;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;33;"import java.util.concurrent.ExecutionException;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;34;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;35;/**
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;36; * Ventana principal: permite escribir la configuracion de una base de datos
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;37; * y probar si la conexion funciona.
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;38; *
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;39; * Esta clase solo se encarga de la interfaz grafica (Swing). La conexion la
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;40; * hace ValidadorConexion y el historial lo guarda HistorialCsv.
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;41; */
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;42;public final class ConexionTester extends JFrame {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;43;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;44;"    private static final long serialVersionUID = 1L;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;45;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;46;"    private static final Color VERDE = new Color(0, 128, 0);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;47;"    private static final Color ROJO = new Color(190, 0, 0);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;48;"    private static final Color NARANJA = new Color(200, 100, 0);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;49;"    private static final Font FUENTE_RESULTADO = new Font(Font.MONOSPACED, Font.PLAIN, 13);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;50;"    private static final DateTimeFormatter FORMATO_HORA = DateTimeFormatter.ofPattern(""HH:mm:ss"");"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;51;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;52;    // Componentes de la interfaz
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;53;"    private final JComboBox<TipoBaseDatos> comboMotor = new JComboBox<>(TipoBaseDatos.values());"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;54;"    private final JTextField campoUrl = new JTextField(35);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;55;"    private final JTextField campoUsuario = new JTextField(20);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;56;"    private final JPasswordField campoContrasena = new JPasswordField(20);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;57;"    private final JButton botonProbar = new JButton(""Probar conexión"");"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;58;"    private final JButton botonLimpiar = new JButton(""Limpiar"");"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;59;"    private final JTextArea areaResultado = new JTextArea(12, 60);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;60;"    private final JLabel etiquetaEstado = new JLabel();"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;61;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;62;    // Logica (separada de la interfaz)
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;63;"    private final transient ValidadorConexion validador;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;64;"    private final transient HistorialCsv historial;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;65;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;66;    public ConexionTester(ValidadorConexion validador, HistorialCsv historial) {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;67;"        super(""Probador de conexión JDBC - IU Digital"");"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;68;"        this.validador = validador;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;69;"        this.historial = historial;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;70;"        construirInterfaz();"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;71;"        registrarEventos();"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;72;"        seleccionarMotor(TipoBaseDatos.MYSQL);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;73;    }
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;74;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;75;    // ------------------------------------------------------------------
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;76;    // Construccion de la interfaz
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;77;    // ------------------------------------------------------------------
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;78;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;79;    private void construirInterfaz() {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;80;"        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;81;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;82;"        JPanel panelPrincipal = new JPanel(new BorderLayout(10, 10));"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;83;"        panelPrincipal.setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;84;"        panelPrincipal.add(crearPanelEncabezado(), BorderLayout.NORTH);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;85;"        panelPrincipal.add(crearPanelCentral(), BorderLayout.CENTER);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;86;"        panelPrincipal.add(crearBarraEstado(), BorderLayout.SOUTH);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;87;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;88;"        setContentPane(panelPrincipal);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;89;"        pack();"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;90;"        setMinimumSize(new Dimension(640, 520));"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;91;"        setLocationRelativeTo(null);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;92;    }
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;93;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;94;    private JPanel crearPanelEncabezado() {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;95;"        JPanel panel = new JPanel(new GridLayout(2, 1));"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;96;"        JLabel titulo = new JLabel(""Probador de conexión a bases de datos"");"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;97;"        titulo.setFont(titulo.getFont().deriveFont(Font.BOLD, 18f));"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;98;"        JLabel subtitulo = new JLabel(""Escriba la configuración y presione \""Probar conexión\""."");"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;99;"        panel.add(titulo);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;100;"        panel.add(subtitulo);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;101;"        return panel;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;102;    }
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;103;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;104;    /** Formulario arriba y resultado abajo. */
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;105;    private JPanel crearPanelCentral() {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;106;"        JPanel panel = new JPanel(new BorderLayout(10, 10));"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;107;"        panel.add(crearPanelFormulario(), BorderLayout.NORTH);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;108;"        panel.add(crearPanelResultado(), BorderLayout.CENTER);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;109;"        return panel;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;110;    }
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;111;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;112;    /**
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;113;     * Formulario: una columna de etiquetas (WEST) y una de campos (CENTER),
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;114;     * cada una con GridLayout para que queden alineadas fila por fila.
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;115;     */
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;116;    private JPanel crearPanelFormulario() {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;117;"        JPanel etiquetas = new JPanel(new GridLayout(4, 1, 5, 8));"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;118;"        JPanel campos = new JPanel(new GridLayout(4, 1, 5, 8));"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;119;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;120;"        agregarFila(etiquetas, campos, ""Motor de base de datos:"", comboMotor);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;121;"        agregarFila(etiquetas, campos, ""URL de conexión:"", campoUrl);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;122;"        agregarFila(etiquetas, campos, ""Usuario:"", campoUsuario);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;123;"        agregarFila(etiquetas, campos, ""Contraseña:"", campoContrasena);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;124;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;125;"        JPanel botones = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 0));"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;126;"        botonProbar.setFont(botonProbar.getFont().deriveFont(Font.BOLD));"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;127;"        botones.add(botonLimpiar);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;128;"        botones.add(botonProbar);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;129;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;130;"        JPanel formulario = new JPanel(new BorderLayout(10, 10));"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;131;        formulario.setBorder(BorderFactory.createCompoundBorder(
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;132;"                BorderFactory.createTitledBorder(""Configuración de la base de datos""),"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;133;"                BorderFactory.createEmptyBorder(6, 8, 8, 8)));"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;134;"        formulario.add(etiquetas, BorderLayout.WEST);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;135;"        formulario.add(campos, BorderLayout.CENTER);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;136;"        formulario.add(botones, BorderLayout.SOUTH);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;137;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;138;        // Nombres para poder ubicar los componentes en las pruebas automaticas
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;139;"        comboMotor.setName(""comboMotor"");"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;140;"        campoUrl.setName(""campoUrl"");"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;141;"        campoUsuario.setName(""campoUsuario"");"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;142;"        campoContrasena.setName(""campoContrasena"");"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;143;"        botonProbar.setName(""botonProbar"");"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;144;"        areaResultado.setName(""areaResultado"");"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;145;"        return formulario;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;146;    }
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;147;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;148;    private void agregarFila(JPanel etiquetas, JPanel campos, String texto, java.awt.Component campo) {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;149;"        JLabel etiqueta = new JLabel(texto);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;150;"        etiqueta.setLabelFor(campo);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;151;"        etiquetas.add(etiqueta);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;152;"        campos.add(campo);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;153;    }
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;154;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;155;    private JScrollPane crearPanelResultado() {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;156;"        areaResultado.setEditable(false);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;157;"        areaResultado.setLineWrap(true);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;158;"        areaResultado.setWrapStyleWord(true);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;159;"        areaResultado.setFont(FUENTE_RESULTADO);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;160;"        areaResultado.setMargin(new java.awt.Insets(8, 8, 8, 8));"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;161;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;162;"        JScrollPane scroll = new JScrollPane(areaResultado);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;163;"        scroll.setBorder(BorderFactory.createTitledBorder(""Resultado de la prueba""));"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;164;"        return scroll;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;165;    }
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;166;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;167;    private JLabel crearBarraEstado() {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;168;"        etiquetaEstado.setText(""Historial de pruebas: "" + historial.getArchivo().getFileName());"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;169;"        etiquetaEstado.setFont(etiquetaEstado.getFont().deriveFont(11f));"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;170;"        return etiquetaEstado;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;171;    }
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;172;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;173;    // ------------------------------------------------------------------
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;174;    // Eventos
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;175;    // ------------------------------------------------------------------
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;176;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;177;    private void registrarEventos() {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;178;"        // ActionListener del boton ""Probar conexion"""
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;179;"        botonProbar.addActionListener(evento -> probarConexion());"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;180;"        botonLimpiar.addActionListener(evento -> limpiarResultado());"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;181;"        comboMotor.addActionListener(evento -> seleccionarMotor((TipoBaseDatos) comboMotor.getSelectedItem()));"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;182;        // Presionar Enter en cualquier campo tambien prueba la conexion
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;183;"        getRootPane().setDefaultButton(botonProbar);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;184;    }
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;185;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;186;    /** Cambia la URL de ejemplo y activa o desactiva usuario y contrasena (SQLite no los usa). */
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;187;    private void seleccionarMotor(TipoBaseDatos tipo) {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;188;        if (comboMotor.getSelectedItem() != tipo) {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;189;"            comboMotor.setSelectedItem(tipo);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;190;        }
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;191;"        campoUrl.setText(tipo.getUrlEjemplo());"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;192;"        boolean usaCredenciales = tipo.necesitaCredenciales();"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;193;"        campoUsuario.setEnabled(usaCredenciales);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;194;"        campoContrasena.setEnabled(usaCredenciales);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;195;        if (!usaCredenciales) {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;196;"            campoUsuario.setText("""");"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;197;"            campoContrasena.setText("""");"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;198;        }
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;199;    }
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;200;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;201;    /** Lee los campos de texto y arma la configuracion (nada esta escrito fijo en el codigo). */
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;202;    private ConfiguracionConexion leerConfiguracion() {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;203;        return new ConfiguracionConexion(
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;204;                campoUrl.getText(),
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;205;                campoUsuario.getText(),
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;206;"                new String(campoContrasena.getPassword()));"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;207;    }
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;208;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;209;    /**
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;210;     * Ejecuta la prueba en segundo plano con SwingWorker, para que la ventana
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;211;     * no se congele mientras espera al servidor.
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;212;     */
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;213;    private void probarConexion() {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;214;"        ConfiguracionConexion configuracion = leerConfiguracion();"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;215;"        botonProbar.setEnabled(false);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;216;"        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;217;"        areaResultado.setForeground(Color.DARK_GRAY);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;218;"        areaResultado.setText(""Probando conexión con "" + configuracion.url() + "" ..."");"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;219;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;220;        new SwingWorker<ResultadoPrueba, Void>() {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;221;            @Override
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;222;            protected ResultadoPrueba doInBackground() {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;223;"                return validador.probarConexion(configuracion);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;224;            }
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;225;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;226;            @Override
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;227;            protected void done() {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;228;                try {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;229;"                    ResultadoPrueba resultado = get();"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;230;"                    mostrarResultado(resultado);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;231;"                    guardarEnHistorial(configuracion, resultado);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;232;                } catch (InterruptedException e) {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;233;"                    Thread.currentThread().interrupt();"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;234;                } catch (ExecutionException e) {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;235;"                    mostrarErrorInesperado(e.getCause());"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;236;                } finally {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;237;"                    botonProbar.setEnabled(true);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;238;"                    setCursor(Cursor.getDefaultCursor());"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;239;                }
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;240;            }
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;241;"        }.execute();"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;242;    }
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;243;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;244;    /** Verde si la conexion funciono, rojo si fallo, naranja si faltan datos. */
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;245;    private void mostrarResultado(ResultadoPrueba resultado) {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;246;        Color color = switch (resultado.tipoError()) {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;247;"            case NINGUNO -> VERDE;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;248;"            case DATOS_INVALIDOS -> NARANJA;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;249;"            case DRIVER_NO_ENCONTRADO, FALLO_CONEXION -> ROJO;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;250;"        };"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;251;"        areaResultado.setForeground(color);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;252;"        areaResultado.setText(""["" + resultado.fechaHora().format(FORMATO_HORA) + ""] """
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;253;"                + resultado.titulo() + ""  ("" + resultado.milisegundos() + "" ms)\n\n"""
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;254;"                + resultado.detalle());"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;255;"        areaResultado.setCaretPosition(0);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;256;    }
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;257;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;258;    private void guardarEnHistorial(ConfiguracionConexion configuracion, ResultadoPrueba resultado) {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;259;        try {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;260;"            historial.registrar(configuracion, resultado);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;261;"            etiquetaEstado.setText(""Prueba guardada en: "" + historial.getArchivo().getFileName());"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;262;        } catch (IOException e) {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;263;"            etiquetaEstado.setText(""No se pudo guardar el historial: "" + e.getMessage());"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;264;        }
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;265;    }
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;266;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;267;    private void mostrarErrorInesperado(Throwable causa) {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;268;"        areaResultado.setForeground(ROJO);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;269;"        areaResultado.setText(""ERROR INESPERADO\n\n"" + causa);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;270;    }
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;271;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;272;    private void limpiarResultado() {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;273;"        areaResultado.setText("""");"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;274;"        campoContrasena.setText("""");"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;275;    }
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;276;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;277;    // ------------------------------------------------------------------
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;278;    // Punto de entrada
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;279;    // ------------------------------------------------------------------
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;280;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;281;    public static void main(String[] args) {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;282;"        usarAparienciaNimbus();"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;283;        SwingUtilities.invokeLater(() -> {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;284;            ConexionTester ventana = new ConexionTester(
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;285;                    new ValidadorConexion(),
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;286;"                    new HistorialCsv(Path.of(""historial_conexiones.csv"")));"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;287;"            ventana.setVisible(true);"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;288;"        });"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;289;    }
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;290;
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;291;"    /** Usa el estilo ""Nimbus"" que trae Java; si no esta, deja el estilo por defecto. */"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;292;    private static void usarAparienciaNimbus() {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;293;        for (UIManager.LookAndFeelInfo estilo : UIManager.getInstalledLookAndFeels()) {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;294;"            if (""Nimbus"".equals(estilo.getName())) {"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;295;                try {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;296;"                    UIManager.setLookAndFeel(estilo.getClassName());"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;297;                } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException e) {
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;298;                    // Se queda con el estilo por defecto
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;299;                }
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;300;"                return;"
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;301;            }
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;302;        }
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;303;    }
+src/conexiontester/ConexionTester.java;conexiontester;ConexionTester;304;}
+src/conexiontester/modelo/ConfiguracionConexion.java;conexiontester.modelo;ConfiguracionConexion;1;"package conexiontester.modelo;"
+src/conexiontester/modelo/ConfiguracionConexion.java;conexiontester.modelo;ConfiguracionConexion;2;
+src/conexiontester/modelo/ConfiguracionConexion.java;conexiontester.modelo;ConfiguracionConexion;3;/**
+src/conexiontester/modelo/ConfiguracionConexion.java;conexiontester.modelo;ConfiguracionConexion;4; * Datos que escribe el usuario en la ventana para conectarse.
+src/conexiontester/modelo/ConfiguracionConexion.java;conexiontester.modelo;ConfiguracionConexion;5; * Es un record: sus valores no se pueden cambiar despues de creado.
+src/conexiontester/modelo/ConfiguracionConexion.java;conexiontester.modelo;ConfiguracionConexion;6; *
+src/conexiontester/modelo/ConfiguracionConexion.java;conexiontester.modelo;ConfiguracionConexion;7; * @param url        URL JDBC, por ejemplo jdbc:mysql://localhost:3306/inventario
+src/conexiontester/modelo/ConfiguracionConexion.java;conexiontester.modelo;ConfiguracionConexion;8; * @param usuario    usuario de la base de datos (vacio en SQLite)
+src/conexiontester/modelo/ConfiguracionConexion.java;conexiontester.modelo;ConfiguracionConexion;9; * @param contrasena contrasena del usuario (vacia en SQLite)
+src/conexiontester/modelo/ConfiguracionConexion.java;conexiontester.modelo;ConfiguracionConexion;10; */
+src/conexiontester/modelo/ConfiguracionConexion.java;conexiontester.modelo;ConfiguracionConexion;11;public record ConfiguracionConexion(String url, String usuario, String contrasena) {
+src/conexiontester/modelo/ConfiguracionConexion.java;conexiontester.modelo;ConfiguracionConexion;12;
+src/conexiontester/modelo/ConfiguracionConexion.java;conexiontester.modelo;ConfiguracionConexion;13;    public ConfiguracionConexion {
+src/conexiontester/modelo/ConfiguracionConexion.java;conexiontester.modelo;ConfiguracionConexion;14;"        url = url == null ? """" : url.trim();"
+src/conexiontester/modelo/ConfiguracionConexion.java;conexiontester.modelo;ConfiguracionConexion;15;"        usuario = usuario == null ? """" : usuario.trim();"
+src/conexiontester/modelo/ConfiguracionConexion.java;conexiontester.modelo;ConfiguracionConexion;16;"        contrasena = contrasena == null ? """" : contrasena;"
+src/conexiontester/modelo/ConfiguracionConexion.java;conexiontester.modelo;ConfiguracionConexion;17;    }
+src/conexiontester/modelo/ConfiguracionConexion.java;conexiontester.modelo;ConfiguracionConexion;18;
+src/conexiontester/modelo/ConfiguracionConexion.java;conexiontester.modelo;ConfiguracionConexion;19;    public boolean tieneUsuario() {
+src/conexiontester/modelo/ConfiguracionConexion.java;conexiontester.modelo;ConfiguracionConexion;20;"        return !usuario.isEmpty();"
+src/conexiontester/modelo/ConfiguracionConexion.java;conexiontester.modelo;ConfiguracionConexion;21;    }
+src/conexiontester/modelo/ConfiguracionConexion.java;conexiontester.modelo;ConfiguracionConexion;22;
+src/conexiontester/modelo/ConfiguracionConexion.java;conexiontester.modelo;ConfiguracionConexion;23;    /** Evita que la contrasena aparezca si alguien imprime el objeto. */
+src/conexiontester/modelo/ConfiguracionConexion.java;conexiontester.modelo;ConfiguracionConexion;24;    @Override
+src/conexiontester/modelo/ConfiguracionConexion.java;conexiontester.modelo;ConfiguracionConexion;25;    public String toString() {
+src/conexiontester/modelo/ConfiguracionConexion.java;conexiontester.modelo;ConfiguracionConexion;26;"        return ""ConfiguracionConexion[url="" + url + "", usuario="" + usuario + "", contrasena=****]"";"
+src/conexiontester/modelo/ConfiguracionConexion.java;conexiontester.modelo;ConfiguracionConexion;27;    }
+src/conexiontester/modelo/ConfiguracionConexion.java;conexiontester.modelo;ConfiguracionConexion;28;}
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;1;"package conexiontester.modelo;"
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;2;
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;3;"import java.time.LocalDateTime;"
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;4;
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;5;/**
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;6; * Resultado de una prueba de conexion.
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;7; *
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;8; * @param exitosa      true si la conexion se pudo abrir
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;9; * @param tipoError    NINGUNO, DATOS_INVALIDOS, DRIVER_NO_ENCONTRADO o FALLO_CONEXION
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;10;" * @param titulo       mensaje corto (""Conexion exitosa"", ""Fallo de conexion""...)"
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;11; * @param detalle      explicacion y mensaje tecnico del error (e.getMessage())
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;12; * @param milisegundos tiempo que tardo la prueba
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;13; * @param fechaHora    momento en que se hizo la prueba
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;14; */
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;15;public record ResultadoPrueba(boolean exitosa,
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;16;                              TipoError tipoError,
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;17;                              String titulo,
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;18;                              String detalle,
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;19;                              long milisegundos,
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;20;                              LocalDateTime fechaHora) {
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;21;
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;22;    /** Tipos de resultado posibles. */
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;23;    public enum TipoError {
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;24;        NINGUNO,
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;25;        DATOS_INVALIDOS,
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;26;        DRIVER_NO_ENCONTRADO,
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;27;        FALLO_CONEXION
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;28;    }
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;29;
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;30;    public static ResultadoPrueba exito(String detalle, long milisegundos) {
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;31;"        return new ResultadoPrueba(true, TipoError.NINGUNO, ""CONEXIÓN EXITOSA"", detalle,"
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;32;"                milisegundos, LocalDateTime.now());"
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;33;    }
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;34;
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;35;    public static ResultadoPrueba error(TipoError tipo, String titulo, String detalle, long milisegundos) {
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;36;"        return new ResultadoPrueba(false, tipo, titulo, detalle, milisegundos, LocalDateTime.now());"
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;37;    }
+src/conexiontester/modelo/ResultadoPrueba.java;conexiontester.modelo;ResultadoPrueba;38;}
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;1;"package conexiontester.modelo;"
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;2;
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;3;"import java.util.Arrays;"
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;4;"import java.util.Optional;"
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;5;
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;6;/**
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;7; * Motores de bases de datos que reconoce la aplicacion.
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;8; * Cada motor sabe el inicio de su URL JDBC, el nombre de la clase de su driver
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;9; * y un ejemplo de URL para ayudar al usuario.
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;10; */
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;11;public enum TipoBaseDatos {
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;12;
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;13;"    MYSQL(""MySQL"", ""jdbc:mysql:"", ""com.mysql.cj.jdbc.Driver"","
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;14;"            ""jdbc:mysql://localhost:3306/inventario""),"
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;15;"    MARIADB(""MariaDB"", ""jdbc:mariadb:"", ""org.mariadb.jdbc.Driver"","
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;16;"            ""jdbc:mariadb://localhost:3306/inventario""),"
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;17;"    POSTGRESQL(""PostgreSQL"", ""jdbc:postgresql:"", ""org.postgresql.Driver"","
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;18;"            ""jdbc:postgresql://localhost:5432/inventario""),"
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;19;"    SQL_SERVER(""SQL Server"", ""jdbc:sqlserver:"", ""com.microsoft.sqlserver.jdbc.SQLServerDriver"","
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;20;"            ""jdbc:sqlserver://localhost:1433;databaseName=inventario;encrypt=false""),"
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;21;"    SQLITE(""SQLite"", ""jdbc:sqlite:"", ""org.sqlite.JDBC"","
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;22;"            ""jdbc:sqlite:inventario.db"");"
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;23;
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;24;"    private final String nombre;"
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;25;"    private final String prefijoUrl;"
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;26;"    private final String claseDriver;"
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;27;"    private final String urlEjemplo;"
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;28;
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;29;    TipoBaseDatos(String nombre, String prefijoUrl, String claseDriver, String urlEjemplo) {
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;30;"        this.nombre = nombre;"
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;31;"        this.prefijoUrl = prefijoUrl;"
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;32;"        this.claseDriver = claseDriver;"
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;33;"        this.urlEjemplo = urlEjemplo;"
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;34;    }
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;35;
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;36;    public String getNombre() {
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;37;"        return nombre;"
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;38;    }
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;39;
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;40;    public String getClaseDriver() {
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;41;"        return claseDriver;"
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;42;    }
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;43;
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;44;    public String getUrlEjemplo() {
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;45;"        return urlEjemplo;"
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;46;    }
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;47;
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;48;    /** SQLite trabaja con un archivo y no necesita usuario ni contrasena. */
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;49;    public boolean necesitaCredenciales() {
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;50;"        return this != SQLITE;"
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;51;    }
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;52;
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;53;    /**
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;54;     * Busca el motor segun el inicio de la URL.
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;55;"     * Ejemplo: ""jdbc:mysql://..."" devuelve MYSQL."
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;56;     */
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;57;    public static Optional<TipoBaseDatos> desdeUrl(String url) {
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;58;"        String urlMinuscula = url.trim().toLowerCase();"
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;59;        return Arrays.stream(values())
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;60;                .filter(tipo -> urlMinuscula.startsWith(tipo.prefijoUrl))
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;61;"                .findFirst();"
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;62;    }
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;63;
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;64;    @Override
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;65;    public String toString() {
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;66;"        return nombre;"
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;67;    }
+src/conexiontester/modelo/TipoBaseDatos.java;conexiontester.modelo;TipoBaseDatos;68;}
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;1;"package conexiontester.servicio;"
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;2;
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;3;"import conexiontester.modelo.ConfiguracionConexion;"
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;4;"import conexiontester.modelo.ResultadoPrueba;"
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;5;
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;6;"import java.io.IOException;"
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;7;"import java.nio.charset.StandardCharsets;"
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;8;"import java.nio.file.Files;"
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;9;"import java.nio.file.Path;"
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;10;"import java.nio.file.StandardOpenOption;"
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;11;"import java.time.format.DateTimeFormatter;"
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;12;"import java.util.List;"
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;13;
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;14;/**
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;15; * Guarda cada prueba de conexion en un archivo CSV (historial_conexiones.csv).
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;16; * La contrasena NUNCA se guarda.
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;17; */
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;18;public class HistorialCsv {
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;19;
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;20;"    static final String ENCABEZADO = ""fecha_hora;url;usuario;resultado;tipo_error;tiempo_ms;mensaje"";"
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;21;"    private static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern(""yyyy-MM-dd HH:mm:ss"");"
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;22;
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;23;"    private final Path archivo;"
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;24;
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;25;    public HistorialCsv(Path archivo) {
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;26;"        this.archivo = archivo;"
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;27;    }
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;28;
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;29;    public Path getArchivo() {
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;30;"        return archivo;"
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;31;    }
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;32;
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;33;    /**
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;34;     * Agrega una fila al CSV. Si el archivo no existe, primero escribe el encabezado.
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;35;     *
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;36;     * @throws IOException si no se puede escribir el archivo
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;37;     */
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;38;    public void registrar(ConfiguracionConexion configuracion, ResultadoPrueba resultado) throws IOException {
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;39;        if (Files.notExists(archivo)) {
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;40;            // El BOM al inicio hace que Excel muestre bien las tildes
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;41;"            Files.writeString(archivo, ""﻿"" + ENCABEZADO + System.lineSeparator(), StandardCharsets.UTF_8);"
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;42;        }
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;43;"        String fila = String.join("";"","
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;44;                resultado.fechaHora().format(FORMATO_FECHA),
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;45;                limpiar(configuracion.url()),
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;46;                limpiar(configuracion.usuario()),
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;47;"                resultado.exitosa() ? ""EXITOSA"" : ""FALLIDA"","
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;48;                resultado.tipoError().name(),
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;49;                String.valueOf(resultado.milisegundos()),
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;50;"                limpiar(resultado.detalle().replace(""\n\n"", ""\n"").replace(""\n"", "" | "")));"
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;51;"        Files.write(archivo, List.of(fila), StandardCharsets.UTF_8, StandardOpenOption.APPEND);"
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;52;    }
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;53;
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;54;    /** Pone el texto entre comillas si tiene punto y coma, comillas o saltos de linea. */
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;55;    static String limpiar(String texto) {
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;56;"        String sinSaltos = texto.replace(""\r"", "" "").replace(""\n"", "" "");"
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;57;"        if (sinSaltos.contains("";"") || sinSaltos.contains(""\"""")) {"
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;58;"            return ""\"""" + sinSaltos.replace(""\"""", ""\""\"""") + ""\"""";"
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;59;        }
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;60;"        return sinSaltos;"
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;61;    }
+src/conexiontester/servicio/HistorialCsv.java;conexiontester.servicio;HistorialCsv;62;}
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;1;"package conexiontester.servicio;"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;2;
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;3;"import conexiontester.modelo.ConfiguracionConexion;"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;4;"import conexiontester.modelo.ResultadoPrueba;"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;5;"import conexiontester.modelo.ResultadoPrueba.TipoError;"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;6;"import conexiontester.modelo.TipoBaseDatos;"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;7;
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;8;"import java.sql.Connection;"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;9;"import java.sql.DatabaseMetaData;"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;10;"import java.sql.DriverManager;"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;11;"import java.sql.SQLException;"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;12;"import java.util.Optional;"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;13;
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;14;/**
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;15; * Logica de conexion a la base de datos, separada de la interfaz grafica.
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;16; *
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;17; * Esta clase no sabe nada de Swing: recibe una ConfiguracionConexion y
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;18; * devuelve un ResultadoPrueba. Por eso se puede usar desde la ventana,
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;19; * desde la consola o desde una prueba.
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;20; */
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;21;public class ValidadorConexion {
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;22;
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;23;    /** Segundos maximos que se espera al servidor antes de rendirse. */
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;24;"    private static final int TIEMPO_ESPERA_SEGUNDOS = 5;"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;25;
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;26;    /**
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;27;     * Intenta abrir una conexion con los datos recibidos y la cierra enseguida.
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;28;     *
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;29;     * @param configuracion URL, usuario y contrasena escritos por el usuario
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;30;     * @return el resultado de la prueba (exito o el tipo de error con su mensaje)
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;31;     */
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;32;    public ResultadoPrueba probarConexion(ConfiguracionConexion configuracion) {
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;33;"        long inicio = System.currentTimeMillis();"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;34;
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;35;        // 1. Revisar que los datos tengan sentido antes de intentar conectar
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;36;"        Optional<String> errorDatos = validarDatos(configuracion);"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;37;        if (errorDatos.isPresent()) {
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;38;"            return ResultadoPrueba.error(TipoError.DATOS_INVALIDOS, ""DATOS INCOMPLETOS"","
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;39;"                    errorDatos.get(), calcularTiempo(inicio));"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;40;        }
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;41;
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;42;"        Optional<TipoBaseDatos> tipo = TipoBaseDatos.desdeUrl(configuracion.url());"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;43;
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;44;        try {
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;45;            // 2. Cargar el driver JDBC. Si el .jar no esta en la carpeta lib,
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;46;            //    Java lanza ClassNotFoundException.
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;47;            if (tipo.isPresent()) {
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;48;"                Class.forName(tipo.get().getClaseDriver());"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;49;            }
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;50;
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;51;            // 3. Abrir la conexion con try-with-resources: Java la cierra
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;52;            //    automaticamente al salir del bloque, salga bien o salga mal.
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;53;"            DriverManager.setLoginTimeout(TIEMPO_ESPERA_SEGUNDOS);"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;54;            try (Connection conexion = abrirConexion(configuracion)) {
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;55;"                String detalle = describirConexion(conexion, tipo);"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;56;"                return ResultadoPrueba.exito(detalle, calcularTiempo(inicio));"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;57;            }
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;58;
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;59;        } catch (ClassNotFoundException e) {
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;60;"            String motor = tipo.map(TipoBaseDatos::getNombre).orElse(""desconocido"");"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;61;"            String detalle = ""No se encontró el driver JDBC de "" + motor + "".\n"""
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;62;"                    + ""Copie el archivo .jar del driver en la carpeta 'lib' del proyecto y vuelva a ejecutar el programa.\n\n"""
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;63;"                    + ""Mensaje técnico: "" + e.getMessage();"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;64;"            return ResultadoPrueba.error(TipoError.DRIVER_NO_ENCONTRADO, ""FALLO DE CONEXIÓN: DRIVER NO ENCONTRADO"","
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;65;"                    detalle, calcularTiempo(inicio));"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;66;
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;67;        } catch (SQLException e) {
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;68;"            String detalle = explicarError(e) + ""\n\n"""
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;69;"                    + ""Mensaje técnico: "" + e.getMessage() + ""\n"""
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;70;"                    + ""SQLState: "" + e.getSQLState() + "" | Código de error: "" + e.getErrorCode();"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;71;"            return ResultadoPrueba.error(TipoError.FALLO_CONEXION, ""FALLO DE CONEXIÓN"","
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;72;"                    detalle, calcularTiempo(inicio));"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;73;        }
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;74;    }
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;75;
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;76;    /** Revisa los datos escritos. Devuelve el problema encontrado, o vacio si todo esta bien. */
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;77;    Optional<String> validarDatos(ConfiguracionConexion configuracion) {
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;78;        if (configuracion.url().isEmpty()) {
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;79;"            return Optional.of(""Escriba la URL de conexión. Ejemplo: jdbc:mysql://localhost:3306/inventario"");"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;80;        }
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;81;"        if (!configuracion.url().toLowerCase().startsWith(""jdbc:"")) {"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;82;"            return Optional.of(""La URL debe empezar por 'jdbc:'. Ejemplo: jdbc:mysql://localhost:3306/inventario"");"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;83;        }
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;84;"        return Optional.empty();"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;85;    }
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;86;
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;87;    /** SQLite no usa usuario: en ese caso se llama a getConnection solo con la URL. */
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;88;    private Connection abrirConexion(ConfiguracionConexion configuracion) throws SQLException {
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;89;        if (configuracion.tieneUsuario()) {
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;90;            return DriverManager.getConnection(configuracion.url(), configuracion.usuario(),
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;91;"                    configuracion.contrasena());"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;92;        }
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;93;"        return DriverManager.getConnection(configuracion.url());"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;94;    }
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;95;
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;96;    /** Arma el texto con la informacion del servidor al que se conecto. */
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;97;    private String describirConexion(Connection conexion, Optional<TipoBaseDatos> tipo) throws SQLException {
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;98;"        DatabaseMetaData datos = conexion.getMetaData();"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;99;"        return ""Motor detectado: "" + tipo.map(TipoBaseDatos::getNombre).orElse(""otro"") + ""\n"""
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;100;"                + ""Servidor: "" + datos.getDatabaseProductName() + "" "" + datos.getDatabaseProductVersion() + ""\n"""
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;101;"                + ""Driver: "" + datos.getDriverName() + "" "" + datos.getDriverVersion() + ""\n"""
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;102;"                + ""Usuario conectado: "" + valorOGuion(datos.getUserName()) + ""\n"""
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;103;"                + ""Conexión válida: "" + (conexion.isValid(TIEMPO_ESPERA_SEGUNDOS) ? ""sí"" : ""no"") + ""\n"""
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;104;"                + ""La conexión se cerró automáticamente (try-with-resources)."";"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;105;    }
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;106;
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;107;    /** Traduce los errores mas comunes a un mensaje facil de entender. */
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;108;    String explicarError(SQLException e) {
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;109;"        String estado = e.getSQLState() == null ? """" : e.getSQLState();"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;110;"        String mensaje = e.getMessage() == null ? """" : e.getMessage().toLowerCase();"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;111;
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;112;"        if (mensaje.contains(""no suitable driver"")) {"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;113;"            return ""La URL no corresponde a ningún driver cargado. Revise que esté bien escrita."";"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;114;        }
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;115;"        if (e.getErrorCode() == 1049 || mensaje.contains(""unknown database"")) {"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;116;"            return ""El servidor respondió, pero la base de datos no existe."";"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;117;        }
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;118;        if (e.getErrorCode() == 1044) {
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;119;"            return ""El usuario y la contraseña son correctos, pero ese usuario no tiene permiso """
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;120;"                    + ""sobre esa base de datos (o la base de datos no existe)."";"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;121;        }
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;122;"        if (estado.startsWith(""28"") || e.getErrorCode() == 1045 || mensaje.contains(""access denied"")) {"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;123;"            return ""El usuario o la contraseña son incorrectos."";"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;124;        }
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;125;"        if (estado.startsWith(""08"") || mensaje.contains(""communications link failure"")"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;126;"                || mensaje.contains(""connection refused"") || mensaje.contains(""could not connect"")) {"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;127;"            return ""No se pudo llegar al servidor. Revise que esté encendido y que el host y el puerto sean correctos."";"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;128;        }
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;129;"        return ""La base de datos rechazó la conexión."";"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;130;    }
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;131;
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;132;    private static String valorOGuion(String valor) {
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;133;"        return valor == null || valor.isBlank() ? ""-"" : valor;"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;134;    }
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;135;
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;136;    private static long calcularTiempo(long inicio) {
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;137;"        return System.currentTimeMillis() - inicio;"
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;138;    }
+src/conexiontester/servicio/ValidadorConexion.java;conexiontester.servicio;ValidadorConexion;139;}

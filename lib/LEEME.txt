@@ -1,0 +1,20 @@
+CARPETA lib - DRIVERS JDBC
+==========================
+
+Aqui va el archivo .jar del driver de la base de datos que se quiere probar.
+Sin el driver, el programa muestra "FALLO DE CONEXION: DRIVER NO ENCONTRADO"
+(ClassNotFoundException), que es una de las pruebas de la actividad.
+
+MySQL (el que se usa en la actividad):
+  1. Entrar a https://dev.mysql.com/downloads/connector/j/
+  2. En "Select Operating System" escoger "Platform Independent".
+  3. Descargar el archivo ZIP y descomprimirlo.
+  4. Copiar el archivo mysql-connector-j-X.X.X.jar en esta carpeta lib.
+
+Otros motores (opcional):
+  - SQLite:     sqlite-jdbc-X.X.X.jar      (https://github.com/xerial/sqlite-jdbc/releases)
+  - PostgreSQL: postgresql-X.X.X.jar       (https://jdbc.postgresql.org/download/)
+  - MariaDB:    mariadb-java-client-X.X.X.jar
+  - SQL Server: mssql-jdbc-X.X.X.jre11.jar
+
+Luego ejecutar de nuevo ejecutar.bat (Windows) o ejecutar.sh (Linux/Mac).
